@@ -23,6 +23,7 @@ project_name = os.path.basename(os.path.dirname(os.path.dirname(curdir)))
 chaste_libs = [project_name] + comp_deps['core']
 #chaste_libs = [project_name, 'cancer'] + comp_deps['cancer']
 #chaste_libs = [project_name, 'heart'] + comp_deps['heart']
+#chaste_libs = [project_name, 'cancer', 'heart'] + comp_deps['heart']
 
 
 # Look for .cpp files within the src folder
