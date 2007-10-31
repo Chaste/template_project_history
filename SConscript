@@ -67,7 +67,7 @@ for targ in BUILD_TARGETS:
         test_this_comp = True
 testfiles = set()
 if single_test_suite:
-  if single_test_suite_dir == toplevel_dir:
+  if single_test_suite_dir == project_name:
     testfiles.add(single_test_suite)
     # Remove any old test output file to force a re-run
     try:
