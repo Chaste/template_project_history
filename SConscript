@@ -1,13 +1,6 @@
 import glob
 import os
 
-# Compatability with Python 2.3
-try:
-  set = set
-except NameError:
-  import sets
-  set = sets.Set
-
 Import("*")
 
 # Note that this script is executed from within the <project>/build/<something>/ folder
@@ -28,31 +21,13 @@ chaste_libs = [project_name] + comp_deps['core']
 
 # Look for .cpp files within the src folder
 os.chdir('../..') # This is so .o files are built in <project>/build/<something>/
-files = []
-extra_cpppath = ['src']
-for dirpath, dirnames, filenames in os.walk('src'):
-    for dirname in dirnames[:]:
-        if dirname in ['.svn']:
-            dirnames.remove(dirname)
-        else:
-            extra_cpppath.append(os.path.join(dirpath, dirname))
-    for filename in filenames:
-        if filename[-4:] == '.cpp':
-            files.append(os.path.join(dirpath, filename))
+files, extra_cpppath = SConsTools.FindSourceFiles('src')
+extra_cpppath.append('src')
 
 # Look for source files that tests depend on under test/.
-# We also need to add any subfolders to the CPPPATH, so they are searched
-# for #includes.
-testsource = []
-for dirpath, dirnames, filenames in os.walk('test'):
-    for dirname in dirnames[:]:
-        if dirname in ['.svn', 'data']:
-            dirnames.remove(dirname)
-        else:
-            extra_cpppath.append(os.path.join(dirpath, dirname))
-    for filename in filenames:
-        if filename[-4:] == '.cpp':
-            testsource.append(os.path.join(dirpath, filename))
+testsource, test_cpppath = SConsTools.FindSourceFiles('test', ['data'])
+extra_cpppath.extend(test_cpppath)
+del test_cpppath
 
 os.chdir(curdir)
 
