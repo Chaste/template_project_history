@@ -1,3 +1,5 @@
+# SCons build script for user projects.
+
 import glob
 import os
 
@@ -21,8 +23,7 @@ chaste_libs = [project_name] + comp_deps['core']
 
 # Look for .cpp files within the src folder
 os.chdir('../..') # This is so .o files are built in <project>/build/<something>/
-files, extra_cpppath = SConsTools.FindSourceFiles('src')
-extra_cpppath.append('src')
+files, extra_cpppath = SConsTools.FindSourceFiles('src', includeRoot=True)
 
 # Look for source files that tests depend on under test/.
 testsource, test_cpppath = SConsTools.FindSourceFiles('test', ['data'])
@@ -36,44 +37,10 @@ os.chdir(curdir)
 # file, one per line.
 # Alternatively, a single test suite may have been specified on the command
 # line.
-test_this_comp = False
-for targ in BUILD_TARGETS:
-    if str(targ) in ['projects/'+project_name, '.', Dir('#').abspath]:
-        test_this_comp = True
-testfiles = set()
-if single_test_suite:
-  if single_test_suite_dir == project_name:
-    testfiles.add(single_test_suite)
-    # Remove any old test output file to force a re-run
-    try:
-      os.remove(single_test_suite[:-4] + '.log')
-    except OSError:
-      pass
-elif test_this_comp:
-  packfiles = []
-  if all_tests:
-    for packfile in glob.glob('../../test/*TestPack.txt'):
-      try:
-        packfiles.append(file(packfile, 'r'))
-      except IOError:
-        pass
-  else:
-    for testpack in build.TestPacks():
-      try:
-        packfile = '../../test/'+testpack+'TestPack.txt'
-        packfiles.append(file(packfile, 'r'))
-      except IOError:
-        pass
-  for packfile in packfiles:
-    try:
-      for testfile in map(lambda s: s.strip(), packfile.readlines()):
-        # Ignore blank lines and repeated tests.
-        if testfile and not testfile in testfiles:
-          testfiles.add(testfile)
-      packfile.close()
-    except IOError:
-      pass
-
+testfiles = SConsTools.FindTestsToRun(
+    build, BUILD_TARGETS,
+    single_test_suite, single_test_suite_dir, all_tests,
+    project=project_name)
 
 #print test_cpppath, testsource
 #print files, testfiles, testsource
