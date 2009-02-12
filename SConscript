@@ -70,7 +70,7 @@ else:
     for source_file in files + testsource:
         obj = env.StaticObject(source_file)
         key = os.path.join('projects', project_name, source_file)
-        print project_name, "source", key
+        #print project_name, "source", key
         env['CHASTE_OBJECTS'][key] = obj[0]
 
 # Make test output depend on shared libraries, so if implementation changes
