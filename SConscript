@@ -15,6 +15,7 @@ project_name = os.path.basename(os.path.dirname(os.path.dirname(curdir)))
 
 # Determine Chaste libraries to link against.
 # Note that order does matter!
+# Select which line to uncomment based on what your project needs.
 chaste_libs = [project_name] + comp_deps['core']
 #chaste_libs = [project_name, 'cancer'] + comp_deps['cancer']
 #chaste_libs = [project_name, 'heart'] + comp_deps['heart']
@@ -95,15 +96,18 @@ for testfile in testfiles:
     runner_cpp = env.Test(prefix+'Runner.cpp', test_hpp)
     runner_exe = File(prefix+'Runner').abspath
     if use_chaste_libs:
-        env.Program(runner_exe, runner_cpp,
-                    LIBS = all_libs,
-                    LIBPATH = ['#/lib', '.'] + other_libpaths)
+        runner_exe = env.Program(runner_exe, runner_cpp,
+                                 LIBS = all_libs,
+                                 LIBPATH = ['#/lib', '.'] + other_libpaths)
     else:
         runner_obj = env.StaticObject(runner_cpp)
         runner_dummy = runner_exe+'.dummy'
+        runner_exe = File(SConsTools.ExeName(env, runner_exe))
         env.BuildTest(runner_dummy, runner_obj, RUNNER_EXE=runner_exe)
         env.AlwaysBuild(runner_dummy)
         env.Depends(runner_exe, runner_dummy)
+    # Make sure we build the test unless the user says otherwise
+    Default(runner_exe)
     if not compile_only:
         log_file = env.File(prefix+'.log')
         if use_chaste_libs:
@@ -112,5 +116,7 @@ for testfile in testfiles:
             env.Depends(log_file, runner_dummy)
         test_log_files.append(log_file)
         env.RunTest(log_file, runner_exe)
+        if force_test_runs:
+            env.AlwaysBuild(log_file)
 
 Return("test_log_files")
