@@ -17,9 +17,9 @@ project_name = os.path.basename(os.path.dirname(os.path.dirname(curdir)))
 # Note that order does matter!
 # Select which line to uncomment based on what your project needs.
 chaste_libs = [project_name] + comp_deps['core']
-#chaste_libs = [project_name, 'cancer'] + comp_deps['cancer']
+#chaste_libs = [project_name, 'cell_based'] + comp_deps['cell_based']
 #chaste_libs = [project_name, 'heart'] + comp_deps['heart']
-#chaste_libs = [project_name, 'cancer', 'heart'] + comp_deps['heart']
+#chaste_libs = [project_name, 'cell_based', 'heart'] + comp_deps['heart']
 
 
 # Look for .cpp files within the src folder
