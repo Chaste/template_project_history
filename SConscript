@@ -24,10 +24,10 @@ chaste_libs = [project_name] + comp_deps['core']
 
 # Look for .cpp files within the src folder
 os.chdir('../..') # This is so .o files are built in <project>/build/<something>/
-files, extra_cpppath = SConsTools.FindSourceFiles('src', includeRoot=True)
+files, extra_cpppath = SConsTools.FindSourceFiles(env, 'src', includeRoot=True)
 
 # Look for source files that tests depend on under test/.
-testsource, test_cpppath = SConsTools.FindSourceFiles('test', ['data'])
+testsource, test_cpppath = SConsTools.FindSourceFiles(env, 'test', ['data'])
 extra_cpppath.extend(test_cpppath)
 del test_cpppath
 
