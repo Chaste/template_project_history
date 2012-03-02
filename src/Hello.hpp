@@ -33,59 +33,22 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef MOTILEMUTATIONSTATE_HPP_
-#define MOTILEMUTATIONSTATE_HPP_
+#ifndef HELLO_HPP_
+#define HELLO_HPP_
 
-#include <boost/shared_ptr.hpp>
-#include "AbstractCellMutationState.hpp"
-#include "ChasteSerialization.hpp"
-#include <boost/serialization/base_object.hpp>
+#include <string>
 
-/**
- * Motile cell mutation state.
- * 
- * \todo replace this with a cell property
- *
- * Each Cell owns a CellPropertyCollection, which may include a shared pointer 
- * to an object of this type.
- *
- * The MotileCellProperty object keeps track of the number of cells that are motile, as well
- * as what colour should be used by the visualizer to display cells that are motile.
- */
-class MotileMutationState : public AbstractCellMutationState
+class Hello
 {
 private:
-
-    /** Needed for serialization. */
-    friend class boost::serialization::access;
-    /**
-     * Archive the member variables.
-     *
-     * @param archive the archive
-     * @param version the current version of this class
-     */
-    template<class Archive>
-    void serialize(Archive & archive, const unsigned int version)
-    {
-        archive & boost::serialization::base_object<AbstractCellMutationState>(*this);
-    }
+    std::string mMessage;
 
 public:
-
-    /**
-     * Constructor.
-     *
-     * @param colour  what colour cells with this property should be in the visualizer (defaults to 7)
-     */
-    MotileMutationState(unsigned colour=7);
-
-    /**
-     * Destructor.
-     */
-    virtual ~MotileMutationState();
+    Hello(const std::string& rMessage);
+    
+    std::string GetMessage();
+    
+    void Complain(const std::string& rComplaint);
 };
 
-#include "SerializationExportWrapper.hpp"
-CHASTE_CLASS_EXPORT(MotileMutationState)
-
-#endif /* MOTILEMUTATIONSTATE_HPP_ */
+#endif /*HELLO_HPP_*/

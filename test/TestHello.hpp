@@ -33,62 +33,44 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef MOTILECELLFORCE_HPP_
-#define MOTILECELLFORCE_HPP_
+#ifndef TESTHELLO_HPP_
+#define TESTHELLO_HPP_
 
-#include "ChasteSerialization.hpp"
-#include <boost/serialization/base_object.hpp>
+#include <cxxtest/TestSuite.h>
 
-#include "AbstractForce.hpp"
-
-// Needed here to avoid serialization errors (on Boost<1.37)
-#include "CellLabel.hpp"
+#include "Hello.hpp"
 
 /**
- * A motile cell force class.
+ * @file
+ *
+ * This is an example of a CxxTest test suite, used to test the source
+ * code, and also used to run simulations (as it provides a handy
+ * shortcut to compile and link against the correct libraries using scons).
+ *
+ * You can #include any of the files in the project 'src' folder.
+ * For example here we #include "Hello.hpp"
+ *
+ * You can utilise any of the code in the main the Chaste trunk
+ * in exactly the same way.
+ * NOTE: you will have to alter the project SConscript file lines 41-44
+ * to enable #including of code from the 'heart', 'cell_based' or 'crypt'
+ * components of Chaste.
  */
-template<unsigned DIM>
-class MotileCellForce  : public AbstractForce<DIM>
+
+class TestHello : public CxxTest::TestSuite
 {
-private:
-
-    friend class boost::serialization::access;
-    template<class Archive>
-    void serialize(Archive & archive, const unsigned int version)
-    {
-        archive & boost::serialization::base_object<AbstractForce<DIM> >(*this);
-    }
-
 public:
+    void testHello()
+    {
+        // Create an object called 'world' of class 'Hello',
+        // (Hello.hpp is #included from the 'src' folder.)
+        Hello world("Hello world!");
 
-    /**
-     * Constructor.
-     */
-    MotileCellForce();
-
-    /**
-     * Destructor.
-     */
-    ~MotileCellForce();
-
-    /**
-     * Overridden AddForceContribution() method.
-     *
-     * @param rForces reference to vector of forces on nodes
-     * @param rCellPopulation reference to the cell population
-     */
-    void AddForceContribution(std::vector<c_vector<double, DIM> >& rForces,
-                              AbstractCellPopulation<DIM>& rCellPopulation);
-
-    /**
-     * Overridden OutputForceParameters() method.
-     *
-     * @param rParamsFile the file stream to which the parameters are output
-     */
-    void OutputForceParameters(out_stream& rParamsFile);
+        // The TS_ASSERT macros are used to test that the object performs as expected
+        TS_ASSERT_EQUALS(world.GetMessage(), "Hello world!");
+        TS_ASSERT_THROWS_THIS(world.Complain("I don't like you"),
+                              "I don't like you");
+    }
 };
 
-#include "SerializationExportWrapper.hpp"
-EXPORT_TEMPLATE_CLASS_SAME_DIMS(MotileCellForce)
-
-#endif /*MOTILECELLFORCE_HPP_*/
+#endif /*TESTHELLO_HPP_*/
