@@ -33,20 +33,16 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "Hello.hpp"
-#include "Exception.hpp"
+#include "MotileMutationState.hpp"
 
-Hello::Hello(const std::string& rMessage)
-    : mMessage(rMessage)
+MotileMutationState::MotileMutationState(unsigned colour)
+    : AbstractCellMutationState(colour)
 {
 }
 
-std::string Hello::GetMessage()
+MotileMutationState::~MotileMutationState()
 {
-    return mMessage;
 }
 
-void Hello::Complain(const std::string& rComplaint)
-{
-    EXCEPTION(rComplaint);
-}
+#include "SerializationExportWrapperForCpp.hpp"
+CHASTE_CLASS_EXPORT(MotileMutationState)
