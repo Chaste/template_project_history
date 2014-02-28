@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005-2012, University of Oxford.
+Copyright (c) 2005-2014, University of Oxford.
 All rights reserved.
 
 University of Oxford means the Chancellor, Masters and Scholars of the
@@ -37,7 +37,10 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define TESTHELLO_HPP_
 
 #include <cxxtest/TestSuite.h>
-
+/* Most Chaste code uses PETSc to solve linear algebra problems.  This involves starting PETSc at the beginning of a test-suite
+ * and closing it at the end.  (If you never run code in parallel then it is safe to replace PetscSetupAndFinalize.hpp with FakePetscSetUp.hpp)
+ */
+//#include "PetscSetupAndFinalize.hpp"
 #include "Hello.hpp"
 
 /**
@@ -60,7 +63,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class TestHello : public CxxTest::TestSuite
 {
 public:
-    void testHello()
+    void TestHelloClass()
     {
         // Create an object called 'world' of class 'Hello',
         // (Hello.hpp is #included from the 'src' folder.)
