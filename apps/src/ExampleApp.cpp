@@ -85,9 +85,9 @@ int main(int argc, char *argv[])
         exit_code = ExecutableSupport::EXIT_ERROR;
     }
 
-	// Optional - write the machine info to file.
+    // Optional - write the machine info to file.
     ExecutableSupport::WriteMachineInfoFile("machine_info");
-    
+
     // End by finalizing PETSc, and returning a suitable exit code.
     // 0 means 'no error'
     ExecutableSupport::FinalizePetsc();
