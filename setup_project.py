@@ -80,9 +80,9 @@ def main():
     test_cmakelists = os.path.join(path_to_project, 'test', 'CMakeLists.txt')
 
     # Perform the find-and-replace tasks to update the template project
-    find_and_replace(base_cmakelists, 'chaste_do_project(template', 'chaste_do_project(' + project_name)
-    find_and_replace(apps_cmakelists, 'chaste_do_apps_project(template', 'chaste_do_apps_project(' + project_name)
-    find_and_replace(test_cmakelists, 'chaste_do_test_project(template', 'chaste_do_test_project(' + project_name)
+    find_and_replace(base_cmakelists, 'chaste_do_project(template_project', 'chaste_do_project(' + project_name)
+    find_and_replace(apps_cmakelists, 'chaste_do_apps_project(template_project', 'chaste_do_apps_project(' + project_name)
+    find_and_replace(test_cmakelists, 'chaste_do_test_project(template_project', 'chaste_do_test_project(' + project_name)
 
     # Amend the components
     components_list = []

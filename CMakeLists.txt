@@ -19,4 +19,4 @@ find_package(Chaste COMPONENTS continuum_mechanics global io linalg mesh ode pde
 
 # Change the project name in the line below to match the folder this file is in,
 # i.e. the name of your project.
-chaste_do_project(template)
+chaste_do_project(template_project)
